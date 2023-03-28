@@ -1,0 +1,12 @@
+<h2>Aruba Clearpass Policy Manager</h2>
+<p>
+  The Aruba Clearpass Policy Manager app requires you to create an oAuth api user for SOAR to access actions. 
+  <br>These can be created using a guide available on the aruba developer site or 
+  <a href="https://developer.arubanetworks.com/aruba-cppm/docs/clearpass-configuration">here</a>
+  <br>
+  You will need both the URL of the Publisher (base_url) as well as the client_id and client_secret. <br>
+  Operating mode should be "Clearpass REST API" <br>
+  Grant Type should be "Client Credentials"<br>
+  If the client_secret is not generated on the screen during the creation process or you are using an existing user. You can regenerate the client_secret. <br>
+  If you want to use terminate session you will require an api user with the privileges to access these functions otherwise Operator Profile "Read Only Admin API" will be sufficient
+</p>

@@ -1,0 +1,676 @@
+{
+    "appid": "3882a327-5ef0-4e91-9575-e1c8d96d67e2",
+    "name": "ClearPass Policy Manager",
+    "description": "This app supports various investigative, containment and generic actions on ClearPass Policy Manager.",
+    "type": "network device",
+    "product_vendor": "Aruba",
+    "logo": "clearpasspolicymanager.svg",
+    "logo_dark": "clearpasspolicymanager_dark.svg",
+    "product_name": "ClearPass Policy Manager",
+    "python_version": "3",
+    "product_version_regex": ".*",
+    "publisher": "Splunk Community",
+    "license": "Copyright (c) Splunk Community, 2021",
+    "app_version": "1.5.0",
+    "utctime_updated": "2023-03-27T20:58:50.834638Z",
+    "package_name": "phantom_clearpasspolicymanager",
+    "main_module": "clearpasspolicymanager_connector.py",
+    "min_phantom_version": "4.9.39220",
+    "app_wizard_version": "1.0.0",
+    "configuration": {
+        "base_url": {
+            "description": "Server URL",
+            "data_type": "string",
+            "required": true,
+            "order": 0
+        },
+        "verify_server_cert": {
+            "description": "Verify Server Certificate",
+            "data_type": "boolean",
+            "default": false,
+            "order": 1
+        },
+        "client_id": {
+            "description": "Client ID",
+            "data_type": "string",
+            "required": true,
+            "value_list": [],
+            "default": "",
+            "order": 2
+        },
+        "client_secret": {
+            "description": "Client Secret",
+            "data_type": "password",
+            "required": true,
+            "order": 3
+        }
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "identifier": "test_connectivity",
+            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "verbose": "",
+            "type": "test",
+            "read_only": true,
+            "parameters": {},
+            "output": [
+            ],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "terminate session",
+            "identifier": "terminate_session",
+            "description": "Terminates all active sessions of the device",
+            "verbose": "",
+            "type": "contain",
+            "read_only": false,
+            "parameters": {
+                "macaddress": {
+                    "description": "MAC address of device to terminate sessions of",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "mac address"
+                    ],
+                    "value_list": [],
+                    "default": "",
+                    "order": 0
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.macaddress",
+                    "data_type": "string",
+                    "contains": [
+                        "mac address"
+                    ],
+                    "column_name": "macaddress",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.responses.*.error",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.responses.*.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.num_sessions",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "update endpoint mac",
+            "identifier": "update_endpoint_mac",
+            "description": "Updates a device given it's MAC address",
+            "verbose": "",
+            "type": "correct",
+            "read_only": false,
+            "parameters": {
+                "macaddress": {
+                    "description": "MAC address of device to update",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "mac address"
+                    ],
+                    "value_list": [],
+                    "default": "",
+                    "order": 0
+                },
+                "status": {
+                    "description": "Status",
+                    "data_type": "string",
+                    "required": false,
+                    "value_list": ["Known", "Unknown", "Disabled"],
+                    "order": 1
+                },
+                "attributes_json": {
+                    "description": "JSON dictionary of attributes to set on the endpoint",
+                    "data_type": "string",
+                    "required": false,
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.macaddress",
+                    "data_type": "string",
+                    "contains": [
+                        "mac address"
+                    ],
+                    "column_name": "macaddress",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.status",
+                    "data_type": "string",
+                    "column_name": "endpoint_status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.parameter.attributes_json",
+                    "data_type": "string",
+                    "column_name": "attributes",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "status",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.status",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.attributes",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.mac_address",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get endpoint mac",
+            "identifier": "get_endpoint_mac",
+            "description": "Retrieves device information given it's MAC address",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "macaddress": {
+                    "description": "MAC address of device to update",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "mac address"
+                    ],
+                    "order": 0
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.macaddress",
+                    "data_type": "string",
+                    "contains": [
+                        "mac address"
+                    ],
+                    "column_name": "macaddress",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.status",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.attributes",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.mac_address",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get device mac",
+            "identifier": "get_device_mac",
+            "description": "Retrieves device registry information given it's MAC address",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "macaddress": {
+                    "description": "MAC address of device",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "mac address"
+                    ],
+                    "order": 0
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.macaddress",
+                    "data_type": "string",
+                    "contains": [
+                        "mac address"
+                    ],
+                    "column_name": "macaddress",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.username",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.start_time",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.expire_time",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sponsor_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sponsor_profile",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.enabled",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.current_state",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.notes",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.role_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.role_id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.mac",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.mac_auth",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.source",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.source2",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.do_expire",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.no_portal",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.create_time",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.mpsk_enable",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.no_password",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.remote_addr",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.visitor_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sponsor_email",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.airgroup_enable",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.airgroup_shared",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.expire_postlogin",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.simultaneous_use",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.smtp_email_field",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.airgroup_shared_role",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.airgroup_shared_time",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.airgroup_shared_user",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.smtp_auto_send_field",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sponsor_profile_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.airgroup_shared_group",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.airgroup_shared_location",
+                    "data_type": "string"      
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get guest user",
+            "identifier": "get_guest_user",
+            "description": "Retrieves guest user information",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "username": {
+                    "description": "Enter Guest Username",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "username"
+                    ],
+                    "order": 0
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.username",
+                    "data_type": "string",
+                    "contains": [
+                        "username"
+                    ],
+                    "column_name": "username",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.id",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.username",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.start_time",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.expire_time",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sponsor_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sponsor_profile_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.enabled",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.current_state",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.visitor_carrier",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.role_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.role_id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.mac",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.essid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.source",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.apname",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.expire_postlogin",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.simultaneous_use",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.create_time",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vcname",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.apgroup",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.remote_addr",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.visitor_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.email",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vistor_phone",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.expire_postlogin",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.simultaneous_use",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sponsor_profile_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        }
+    ]
+}
