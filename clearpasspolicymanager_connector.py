@@ -7,15 +7,16 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
+import json
+
 # Phantom App imports
 import phantom.app as phantom
-from phantom.base_connector import BaseConnector
+import requests
+from bs4 import BeautifulSoup
 from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
 
 from clearpasspolicymanager_consts import *
-import requests
-import json
-from bs4 import BeautifulSoup
 
 
 class RetVal(tuple):
@@ -39,7 +40,7 @@ class ClearpassPolicyManagerConnector(BaseConnector):
         self._access_token = None
 
     def initialize(self):
-        """ Automatically called by the BaseConnector before the calls to the handle_action function"""
+        """ Called by the BaseConnector before calls to the handle_action function"""
 
         self._state = self.load_state()
 
@@ -534,8 +535,9 @@ class ClearpassPolicyManagerConnector(BaseConnector):
 
 
 def main():
-    import pudb
     import argparse
+
+    import pudb
 
     pudb.set_trace()
 
